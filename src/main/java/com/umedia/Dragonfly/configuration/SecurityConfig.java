@@ -19,7 +19,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@Order(4)
+//@Order(1)
 public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 	@Autowired
 	private DataSource dataSource;
@@ -31,10 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 				.anyRequest().permitAll().and().formLogin().loginPage("/login")
 				.and().httpBasic();*/
 		
-		http.authorizeRequests().antMatchers("/home").authenticated()
-		.and().formLogin();//.loginPage("/login");
-		
+		http.authorizeRequests()
+		//.antMatchers("/login").permitAll()
+		.antMatchers("/home").authenticated()		
+		.and().formLogin().permitAll();
+		//.loginPage("/login");		
 		//.and().httpBasic();	
+		
 		/*http.authorizeRequests().antMatchers("/login").permitAll()
 		.and().exceptionHandling().accessDeniedPage("/login?authorization_error=true")
 		.and().csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
@@ -48,24 +51,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 	protected void configure(AuthenticationManagerBuilder auth)
 			throws Exception {
 	
-		/*auth.jdbcAuthentication().dataSource(dataSource)
-				.passwordEncoder(passwordEncoder());*/
-		auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER");
+		auth.jdbcAuthentication().dataSource(dataSource)
+				.passwordEncoder(passwordEncoder());
+		//auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER");
 	}
 
+/*	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth
+			.inMemoryAuthentication()
+				.withUser("admin").password("admin").roles("USER");
+	}
+	*/
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
 	}
 
-	/*@Bean
+	@Bean
 	public JdbcUserDetailsManager jdbcUserDetailsManager() {
 		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
 		jdbcUserDetailsManager.setDataSource(dataSource);
 	
 		return jdbcUserDetailsManager;
-	}*/
+	}
 	
 	@Override
 	@Bean

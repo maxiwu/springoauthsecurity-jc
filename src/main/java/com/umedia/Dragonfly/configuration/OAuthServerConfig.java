@@ -104,8 +104,8 @@ public class OAuthServerConfig {
 
 			// JdbcClientDetailsServiceBuilder
 			// @formatter:off
-			//clients.jdbc(dataSource);
-			clients.inMemory().withClient("tonr")
+			clients.jdbc(dataSource);
+			/*clients.inMemory().withClient("tonr")
 			 			.resourceIds(RESOURCE_ID)
 			 			.authorizedGrantTypes("authorization_code", "implicit")
 			 			.authorities("ROLE_CLIENT")
@@ -148,14 +148,14 @@ public class OAuthServerConfig {
 		                .authorizedGrantTypes("implicit")
 		                .authorities("ROLE_CLIENT")
 		                .scopes("read", "write", "trust")
-		                .autoApprove(true);
+		                .autoApprove(true);*/
 			// @formatter:on
 		}
 
 		@Bean
 		public TokenStore tokenStore() {
-			 return new InMemoryTokenStore();
-			//return new JdbcTokenStore(dataSource);
+			// return new InMemoryTokenStore();
+			return new JdbcTokenStore(dataSource);
 		}
 
 		@Override
