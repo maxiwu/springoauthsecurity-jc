@@ -1,8 +1,12 @@
 package com.umedia.Dragonfly.controller;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.config.annotation.builders.JdbcClientDetailsServiceBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +25,18 @@ public class HomeController {
 	@RequestMapping("/")
 	public String welcome()
 	{
+		return "index";
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request) throws ServletException
+	{
+		request.logout();
+		
+		//authentication.setAuthenticated(false);
+/*		if (SecurityContextHolder.getContext().getAuthentication() != null) {
+			SecurityContextHolder.getContext().getAuthentication().
+		}*/
 		return "index";
 	}
 	

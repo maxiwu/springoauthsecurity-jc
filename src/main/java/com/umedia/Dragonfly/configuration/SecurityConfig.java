@@ -19,7 +19,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-//@Order(1)
 public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 	@Autowired
 	private DataSource dataSource;
@@ -31,10 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 				.anyRequest().permitAll().and().formLogin().loginPage("/login")
 				.and().httpBasic();*/
 		
-		http.authorizeRequests()
-		//.antMatchers("/login").permitAll()
-		.antMatchers("/home").authenticated()		
-		.and().formLogin().permitAll();
+		http.authorizeRequests()		
+		.antMatchers("/home").fullyAuthenticated()
+		.and().logout().permitAll()
+		.and().formLogin();
 		//.loginPage("/login");		
 		//.and().httpBasic();	
 		

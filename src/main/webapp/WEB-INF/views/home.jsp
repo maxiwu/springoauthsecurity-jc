@@ -12,5 +12,7 @@ welcome home
 
 <img alt="" src="${pageContext.request.contextPath}/resources/05.jpg">
 
+<!-- <input type="button" >logout</input> -->
+<a href="${pageContext.request.contextPath}/logout">logout</a>
 </body>
 </html>
